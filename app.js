@@ -26,7 +26,7 @@ app.use(function (req, res, next) {
   )
 
   // request headers the server can accept from the client
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type')
+  res.setHeader('Access-Control-Allow-Headers', '*')
 
   // true if the server will include cookies else false
   res.setHeader('Access-Control-Allow-Credentials', false)
