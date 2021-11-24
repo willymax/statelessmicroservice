@@ -1,11 +1,13 @@
 const express = require('express')
+require('dotenv').config()
 const jwt = require('jsonwebtoken')
 const loadData = require('./data/loadData')
 const applyOperation = require('fast-json-patch').applyOperation
 const applyReducer = require('fast-json-patch').applyReducer
 var bodyParser = require('body-parser')
 
-const API_PORT = 3000
+const API_PORT = process.env.API_PORT
+const TOKEN_KEY = process.env.TOKEN_KEY
 const app = express()
 
 // parse application/json
@@ -54,7 +56,7 @@ app.patch('/json-patch', (req, res, next) => {
     //verify token
     try {
       //process.env.TOKEN_KEY remember to fix
-      var decoded = jwt.verify(token, 'vdhjpazqit')
+      var decoded = jwt.verify(token, TOKEN_KEY)
       const { original, patch } = req.body
       var originalObject = JSON.parse(original)
       var patchObject = JSON.parse(patch)
@@ -88,7 +90,7 @@ app.post('/login', (req, res, next) => {
     // this auth uses arbitrary username/password
     // create toke directly
     //process.env.TOKEN_KEY
-    const token = jwt.sign({ username: username }, 'vdhjpazqit', {
+    const token = jwt.sign({ username: username }, TOKEN_KEY, {
       expiresIn: '2h',
     })
 
